@@ -109,7 +109,7 @@ services:
       - "konfettiApp:konfettiApp"
       - "konfettiAdmin:konfettiAdmin"
       - "konfettiCouponGenerator:konfettiCouponGenerator"
-      - "konfettiBootAdmin:konfettiBootAdmin"
+      # - "konfettiBootAdmin:konfettiBootAdmin"
       - "konfettiHomepage:konfettiHomepage"
     volumes: # its a good idea to (re-)generate and store the Certificates outside of docker and mount in the locations.  config on file-name level is done in ./nginx/nginx.conf. everything else here: https://certbot.eff.org/#ubuntuxenial-nginx
       - ./nginx:/etc/nginx
