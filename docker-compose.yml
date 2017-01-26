@@ -1,0 +1,119 @@
+version: '2'
+
+networks:
+  konfettiNetwork:
+    external: false
+
+volumes:
+  konfettiDb:
+    external: false
+
+services:
+  konfettiApi:
+    image: konfettiapp/api
+    container_name: konfettiApi
+    restart: unless-stopped
+    expose:
+      - "8280"
+    networks:
+      - konfettiNetwork
+    depends_on:
+      - database
+    volumes:
+      - /konfetti/logs:/logs
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    env_file:
+      - /konfetti/config/api.env
+
+  konfettiApp:
+    image: konfettiapp/app
+    container_name: konfettiApp
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - konfettiNetwork
+    depends_on:
+      - konfettiApi
+
+  konfettiAdmin:
+    image: konfetti/admin
+    container_name: konfettiAdmin
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - konfettiNetwork
+    depends_on:
+      - konfettiApi
+
+  konfettiCouponGenerator:
+    image: konfetti/couponservice
+    container_name: konfettiCouponService
+    restart: unless-stopped
+    expose:
+      - "2342"
+    networks:
+      - konfettiNetwork
+
+  # konfettiBootAdmin:
+  #   image: konfetti/spring-boot-admin
+  #   container_name: konfettiBootAdmin
+  #   restart: unless-stopped
+  #   expose:
+  #     - "8180"
+  #   networks:
+  #     - konfettiNetwork
+  #   env_file:
+  #     - /konfetti/config/spring-boot-admin.env
+
+  database:
+    image: mysql:5.7.12
+    container_name: konfettiDb
+    restart: unless-stopped
+#    ports:
+#      - "3306"
+    networks:
+      - konfettiNetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: rootPassword
+      MYSQL_DATABASE: konfetti
+      MYSQL_USER: konfetti
+      MYSQL_PASSWORD: konfetti
+    volumes:
+      - konfettiDb:/var/lib/mysql
+#    env_file:
+#      - /konfetti/config/database.env
+  konfettiHomepage:
+    image: konfettiapp/homepage
+    container_name: konfettiHomepage
+    expose:
+      - "80"
+    networks:
+      - konfettiNetwork
+  konfettiLoadbalancer:
+    image: nginx
+    ports:
+      - "80:80" # legacy
+      - "443:443" # ssl
+
+      - "8280:8280" #api has dedicated port
+#      - "2001:80" #app moved to :443/
+#      - "8080:80" #admin moved to :443/admin
+#      - "2342:2342" #coupon-generator moved to /coupongenerator
+#      - "8180:8180" #bootAdmin moved to :443/bootadmin
+#      - "3307:3306" #database only inside compose
+    links:
+      - "konfettiApi:konfettiApi"
+      - "konfettiApp:konfettiApp"
+      - "konfettiAdmin:konfettiAdmin"
+      - "konfettiCouponGenerator:konfettiCouponGenerator"
+      - "konfettiBootAdmin:konfettiBootAdmin"
+      - "konfettiHomepage:konfettiHomepage"
+    volumes: # its a good idea to (re-)generate and store the Certificates outside of docker and mount in the locations.  config on file-name level is done in ./nginx/nginx.conf. everything else here: https://certbot.eff.org/#ubuntuxenial-nginx
+      - ./nginx:/etc/nginx
+      - /etc/letsencrypt:/etc/letsencrypt
+    container_name: konfettiLoadbalancer
+    networks:
+      - konfettiNetwork
