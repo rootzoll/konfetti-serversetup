@@ -38,7 +38,7 @@ services:
       - konfettiApi
 
   konfettiAdmin:
-    image: konfetti/admin
+    image: konfettiapp/admin
     container_name: konfettiAdmin
     restart: unless-stopped
     expose:
