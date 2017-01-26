@@ -49,7 +49,7 @@ services:
       - konfettiApi
 
   konfettiCouponGenerator:
-    image: konfetti/couponservice
+    image: konfettiapp/couponservice
     container_name: konfettiCouponService
     restart: unless-stopped
     expose:
