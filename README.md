@@ -27,7 +27,11 @@ That command acutally pulls the latest changes from docker hup into the local do
 and after that it instructs docker-compose to update just the given service in deamon mode (`-d`) and
 with no further dependencies (`--no-deps`).
 
-Here is an example to update the admin app on the server:
+Here is an example to update the admin app and other cointainers on the server (just one line at the time):
 ```shell
 docker pull konfettiapp/admin && docker-compose up -d --no-deps konfettiAdmin
+docker pull konfettiapp/api && docker-compose up -d --no-deps konfettiApi
+docker pull konfettiapp/app && docker-compose up -d --no-deps konfettiApp
+docker pull konfettiapp/homepage && docker-compose up -d --no-deps konfettiHomepage
+docker pull konfettiapp/couponservice && docker-compose up -d --no-deps konfettiCouponService
 ```
