@@ -1,6 +1,20 @@
 # konfetti-serversetup
 Utility Files and Documentation to get the Server Running
 
+# Setup
+
+Docker needs to be installed on your machine/server.
+Clone this git repo and change into `konfetti-serversetup` directory.
+Run `docker-compose up` and docker will pull the latest images from dockerhub - and then start up the backend locally.
+
+
+# Server Configuration
+
+TODO: Describe how to set the confuguration for the API
+
+
+# How to 
+
 # Update a container
 If you want to update a container on the server you have to first switch to the `konfetti` user
 with `su konfetti`. After that is done browse to the `~/konfetti-serversetup` folder which is already
