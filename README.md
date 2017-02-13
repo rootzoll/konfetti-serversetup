@@ -68,5 +68,5 @@ docker pull konfettiapp/admin && docker-compose up -d --no-deps konfettiAdmin
 docker pull konfettiapp/api && docker-compose up -d --no-deps konfettiApi
 docker pull konfettiapp/app && docker-compose up -d --no-deps konfettiApp
 docker pull konfettiapp/homepage && docker-compose up -d --no-deps konfettiHomepage
-docker pull konfettiapp/couponservice && docker-compose up -d --no-deps konfettiCouponService
+docker pull konfettiapp/couponservice && docker-compose up -d --no-deps konfettiCouponGenerator
 ```
