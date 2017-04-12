@@ -105,3 +105,10 @@ services:
     container_name: konfettiLoadbalancer
     networks:
       - konfettiNetwork
+
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: konfettiHomepage konfettiAdmin konfettiApp konfettiApi konfettiLoadbalancer konfettiCouponService
+    # all services but konfettiDb
