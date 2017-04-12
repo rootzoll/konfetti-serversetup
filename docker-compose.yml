@@ -86,7 +86,19 @@ services:
     ports:
       - "80:80" # legacy
       - "443:443" # ssl
+
       - "8280:8280" #api has dedicated port
+#      - "2001:80" #app moved to :443/
+#      - "8080:80" #admin moved to :443/admin
+#      - "2342:2342" #coupon-generator moved to /coupongenerator
+#      - "8180:8180" #bootAdmin moved to :443/bootadmin
+#      - "3307:3306" #database only inside compose
+    links:
+      - "konfettiApi:konfettiApi"
+      - "konfettiApp:konfettiApp"
+      - "konfettiAdmin:konfettiAdmin"
+      - "konfettiCouponGenerator:konfettiCouponGenerator"
+      - "konfettiHomepage:konfettiHomepage"
     volumes: # its a good idea to (re-)generate and store the Certificates outside of docker and mount in the locations.  config on file-name level is done in ./nginx/nginx.conf. everything else here: https://certbot.eff.org/#ubuntuxenial-nginx
       - ./nginx:/etc/nginx
       - /etc/letsencrypt:/etc/letsencrypt
@@ -100,4 +112,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: konfettiHomepage konfettiAdmin konfettiApp konfettiApi konfettiLoadbalancer konfettiCouponService
     # all services but konfettiDb
-    container_name: konfettiWatchtower
