@@ -14,7 +14,7 @@ Install docker: https://www.digitalocean.com/community/tutorials/how-to-install-
 
 Install docker-compose: https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04
 
-Install letsencrypt using `apt-get i letsencrypt`
+Install letsencrypt using `apt-get update && apt-get install letsencrypt`
 
 This repository is enough to bring up the services.
 
